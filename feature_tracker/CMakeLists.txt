@@ -14,7 +14,8 @@ find_package(catkin REQUIRED COMPONENTS
     )
 
 find_package(OpenCV REQUIRED)
-
+find_package(Ceres REQUIRED)
+include_directories(${CERES_INCLUDE_DIRS})
 catkin_package()
 
 include_directories(
@@ -34,4 +35,4 @@ add_executable(feature_tracker
     src/feature_tracker.cpp
     )
 
-target_link_libraries(feature_tracker ${catkin_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(feature_tracker ${catkin_LIBRARIES} ${OpenCV_LIBS} ${CERES_LIBRARIES})
