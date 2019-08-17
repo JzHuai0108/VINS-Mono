@@ -103,6 +103,40 @@ void printStatistics(const Estimator &estimator, double t)
         ROS_INFO("td %f", estimator.td);
 }
 
+void printStatistics(const Estimator &estimator, const std_msgs::Header &header)
+{
+    if (estimator.solver_flag != Estimator::SolverFlag::NON_LINEAR)
+        return;
+    ofstream foutC(VINS_RESULT_PATH_EX, ios::app);
+    foutC.setf(ios::fixed, ios::floatfield);
+    foutC.precision(0);
+    foutC << header.stamp.toSec() * 1e9 << ",";
+    foutC.precision(9);
+    const char delimiter = ',';
+    if (ESTIMATE_EXTRINSIC) {
+        for (int i = 0; i < NUM_OF_CAM; i++)
+        {
+            Eigen::Matrix3d eigen_R;
+            Eigen::Vector3d eigen_T;
+            eigen_R = estimator.ric[i];
+            eigen_T = estimator.tic[i];
+            Eigen::Quaterniond qic(eigen_R);
+
+            foutC << eigen_T[0] << delimiter << eigen_T[1] << delimiter
+                  << eigen_T[2] << delimiter << qic.x() << delimiter
+                  << qic.y() << delimiter <<  qic.z() << delimiter
+                  << qic.w();
+        }
+    }
+
+    if (ESTIMATE_TD) {
+        foutC << delimiter << estimator.td << std::endl;
+    } else {
+        foutC << std::endl;
+    }
+    foutC.close();
+}
+
 void pubOdometry(const Estimator &estimator, const std_msgs::Header &header)
 {
     if (estimator.solver_flag == Estimator::SolverFlag::NON_LINEAR)
@@ -168,7 +202,13 @@ void pubOdometry(const Estimator &estimator, const std_msgs::Header &header)
               << tmp_Q.z() << ","
               << estimator.Vs[WINDOW_SIZE].x() << ","
               << estimator.Vs[WINDOW_SIZE].y() << ","
-              << estimator.Vs[WINDOW_SIZE].z() << "," << endl;
+              << estimator.Vs[WINDOW_SIZE].z() << "," 
+              << estimator.Bgs[WINDOW_SIZE].x() << ","
+              << estimator.Bgs[WINDOW_SIZE].y() << ","
+              << estimator.Bgs[WINDOW_SIZE].z() << "," 
+              << estimator.Bas[WINDOW_SIZE].x() << ","
+              << estimator.Bas[WINDOW_SIZE].y() << ","
+              << estimator.Bas[WINDOW_SIZE].z() << "," << endl;
         foutC.close();
     }
 }

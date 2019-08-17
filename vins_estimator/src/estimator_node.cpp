@@ -314,10 +314,10 @@ void process()
             estimator.processImage(image, img_msg->header);
 
             double whole_t = t_s.toc();
-            printStatistics(estimator, whole_t);
+            // printStatistics(estimator, whole_t);
             std_msgs::Header header = img_msg->header;
             header.frame_id = "world";
-
+            printStatistics(estimator, header);
             pubOdometry(estimator, header);
             pubKeyPoses(estimator, header);
             pubCameraPose(estimator, header);
