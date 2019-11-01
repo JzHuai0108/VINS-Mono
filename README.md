@@ -64,6 +64,22 @@ Clone the repository and catkin_make:
     source ~/catkin_ws/devel/setup.bash
 ```
 
+Example installation scripts
+```
+VINS_WS=~/catkin_ws
+CERES_SRC_DIR=~
+cd $CERES_SRC_DIR
+git clone --recursive https://github.com/ceres-solver/ceres-solver.git
+cd $VINS_WS/build
+mkdir ceres-solver
+cd ceres-solver
+cmake $CERES_SRC_DIR/ceres-solver -DCMAKE_INSTALL_PREFIX=$VINS_WS/devel
+make
+make install
+cd ../..
+catkin_make -DCeres_DIR=$VINS_WS/devel/lib/cmake/Ceres
+```
+
 ## 3. Visual-Inertial Odometry and Pose Graph Reuse on Public datasets
 Download [EuRoC MAV Dataset](http://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets). Although it contains stereo cameras, we only use one camera. The system also works with [ETH-asl cla dataset](http://robotics.ethz.ch/~asl-datasets/maplab/multi_session_mapping_CLA/bags/). We take EuRoC as the example.
 
