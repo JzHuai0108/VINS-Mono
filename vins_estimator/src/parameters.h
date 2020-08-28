@@ -32,6 +32,7 @@ extern int NUM_ITERATIONS;
 extern std::string EX_CALIB_RESULT_PATH;
 extern std::string VINS_RESULT_PATH;
 extern std::string VINS_RESULT_PATH_EX;
+extern std::string VINS_COV_OUTPUT_FILE;
 extern std::string IMU_TOPIC;
 extern double TD;
 extern double TR;

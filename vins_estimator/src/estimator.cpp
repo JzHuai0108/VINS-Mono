@@ -17,6 +17,7 @@ void Estimator::setParameter()
     ProjectionFactor::sqrt_info = FOCAL_LENGTH / 1.5 * Matrix2d::Identity();
     ProjectionTdFactor::sqrt_info = FOCAL_LENGTH / 1.5 * Matrix2d::Identity();
     td = TD;
+    covarianceSolver.setOutput(VINS_COV_OUTPUT_FILE);
 }
 
 void Estimator::clearState()
@@ -819,6 +820,12 @@ void Estimator::optimization()
     //cout << summary.BriefReport() << endl;
     ROS_DEBUG("Iterations : %d", static_cast<int>(summary.iterations.size()));
     ROS_DEBUG("solver costs: %f", t_solver.toc());
+    
+    Eigen::Matrix<double, SIZE_POSE-1, 1> std_pose;
+    bool status = covarianceSolver.compute(problem, para_Pose, &std_pose);
+    if (status) {
+        covarianceSolver.dump(std_pose, Headers[covarianceSolver.kPoseBlockIndex].stamp.toSec());
+    }
 
     double2vector();
 

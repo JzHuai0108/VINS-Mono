@@ -20,6 +20,7 @@ int ROLLING_SHUTTER;
 std::string EX_CALIB_RESULT_PATH;
 std::string VINS_RESULT_PATH;
 std::string VINS_RESULT_PATH_EX;
+std::string VINS_COV_OUTPUT_FILE;
 std::string IMU_TOPIC;
 double ROW, COL;
 double TD, TR;
@@ -62,6 +63,7 @@ void readParameters(ros::NodeHandle &n)
     VINS_RESULT_PATH = OUTPUT_PATH + "/vins_result_no_loop.csv";
     std::cout << "result path " << VINS_RESULT_PATH << std::endl;
     VINS_RESULT_PATH_EX = OUTPUT_PATH + "/vins_result_ex.csv";
+    VINS_COV_OUTPUT_FILE = OUTPUT_PATH + "/pose_cov.csv";
     // create folder if not exists
     FileSystemHelper::createDirectoryIfNotExists(OUTPUT_PATH.c_str());
 
