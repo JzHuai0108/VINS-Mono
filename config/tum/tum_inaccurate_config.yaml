@@ -11,17 +11,17 @@ camera_name: camera
 image_width: 512
 image_height: 512
 projection_parameters:
-   k2: 0.0034823894022493434
-   k3: 0.0007150348452162257
-   k4: -0.0020532361418706202
-   k5: 0.00020293673591811182
-   mu: 190.97847715128717
-   mv: 190.9733070521226
-   u0: 254.93170605935475
-   v0: 256.8974428996504
+   k2: 0.0
+   k3: 0.0
+   k4: 0.0
+   k5: 0.0
+   mu: 190.0
+   mv: 190.0
+   u0: 256.0
+   v0: 256.0
 
 # Extrinsic parameter between IMU and Camera.
-estimate_extrinsic: 0   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
+estimate_extrinsic: 1   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
                         # 1  Have an initial guess about extrinsic parameters. We will optimize around your initial guess.
                         # 2  Don't know anything about extrinsic parameters. You don't need to give R,T. We will try to calibrate it. Do some rotation movement at beginning.                        
 #If you choose 0 or 1, you should write down the following matrix.
@@ -30,17 +30,14 @@ extrinsicRotation: !!opencv-matrix
    rows: 3
    cols: 3
    dt: d
-   data: [ -9.9951465899298464e-01, 7.5842033363785165e-03,
-       -3.0214670573904204e-02, 2.9940114644659861e-02,
-       -3.4023430206013172e-02, -9.9897246995704592e-01,
-       -8.6044170750674241e-03, -9.9939225835343004e-01,
-       3.3779845322755464e-02 ]
+   data: [ -1.0, 0.0, 0.0, 
+            0.0, 0.0, -1.0,
+            0.0, -1.0, 0.0]
 extrinsicTranslation: !!opencv-matrix
    rows: 3
    cols: 1
    dt: d
-   data: [ 4.4511917113940799e-02, -7.3197096234105752e-02,
-       -4.7972907300764499e-02 ]
+   data: [ 0.0, 0.0, 0.0]
 
 #feature traker paprameters
 max_cnt: 150            # max feature number in feature tracking
@@ -70,7 +67,7 @@ fast_relocalization: 0             # useful in real-time and large project
 pose_graph_save_path: "/home/tony-ws1/output/pose_graph/" # save and load path
 
 #unsynchronization parameters
-estimate_td: 0                      # online estimate time offset between camera and imu
+estimate_td: 1                      # online estimate time offset between camera and imu
 td: 0.0                             # initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)
 
 #rolling shutter parameters
