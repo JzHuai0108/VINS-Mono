@@ -58,7 +58,11 @@ void readParameters(ros::NodeHandle &n)
     MIN_PARALLAX = MIN_PARALLAX / FOCAL_LENGTH;
 
     std::string OUTPUT_PATH;
-    fsSettings["output_path"] >> OUTPUT_PATH;
+    std::string output_dir = readParam<std::string>(n, "output_dir");
+    if (output_dir.empty())
+        fsSettings["output_path"] >> OUTPUT_PATH;
+    else
+        OUTPUT_PATH = output_dir;
     VINS_RESULT_PATH = OUTPUT_PATH + "/vins_result_no_loop.csv";
     std::cout << "result path " << VINS_RESULT_PATH << std::endl;
     VINS_RESULT_PATH_EX = OUTPUT_PATH + "/vins_result_ex.csv";

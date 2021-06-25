@@ -5,6 +5,7 @@
     <arg name="bag_file" default="movie.bag" />
     <arg name="bag_start" default="0" />
     <arg name="bag_duration" default="1e9" />
+    <arg name="rviz_file" default="vins_rviz_config.rviz" />
     <node name="feature_tracker" pkg="feature_tracker" type="feature_tracker" output="log">
         <param name="config_file" type="string" value="$(arg config_path)" />
         <param name="vins_folder" type="string" value="$(arg vins_path)" />
@@ -24,6 +25,8 @@
         <param name="skip_dis" type="double" value="0" />
     </node>
 
+    <node name="rviz" pkg="rviz" type="rviz" output="log" args="-d $(arg rviz_file)">
+    </node>
     <node name="player" pkg="rosbag" type="play" output="log"
       args="$(arg bag_file) --start $(arg bag_start) --duration $(arg bag_duration)" 
       required="true">
